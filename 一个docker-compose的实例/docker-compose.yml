@@ -1,0 +1,25 @@
+# 乱写的
+version: '3.8'
+services:
+  web: 
+    build: ./build
+    ports:
+      - 3000:3000
+  api: 
+    build: ./build
+    ports:
+      - 3001:3001
+    environment:
+      # 使用docker compose启动时, 会创建一个网络, 所以我们有3个网络, (web, api, db)
+      # - DB_URL=mongodb://db/vid # 两种皆可
+      DB_URL: mongodb://db/vid
+  db:
+    image: mongo:4.0
+    ports:
+      - 27017:27017
+    volumes:
+      # 将此卷映射到容器内
+      - vid:/data/db
+# 需要这样重复一下才能使用
+volumes:
+  vid:
